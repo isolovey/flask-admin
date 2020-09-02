@@ -1038,13 +1038,6 @@ class ModelView(BaseModelView):
         query = self.get_query()
         count_query = self.get_count_query() if not self.simple_list_pager else None
 
-        # Ignore eager-loaded relations (prevent unnecessary joins)
-        # TODO: Separate join detection for query and count query?
-        if hasattr(query, '_join_entities'):
-            for entity in query._join_entities:
-                for table in entity.tables:
-                    joins[table] = None
-
         # Apply search criteria
         if self._search_supported and search:
             query, count_query, joins, count_joins = self._apply_search(query,
