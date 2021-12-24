@@ -16,6 +16,7 @@
           separator: $el.attr('data-separator'),
           ajax: {
             url: $el.attr('data-url'),
+            quietMillis: $el.attr('data-delay'),
             data: function(term, page) {
               return {
                 query: term,
