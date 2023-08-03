@@ -708,7 +708,10 @@ class ModelView(BaseModelView):
                     )
             else:
                 if not isinstance(name, string_types):
-                    visible_name = self.get_column_name(name.property.key)
+                    if hasattr(name, "property"):
+                        visible_name = self.get_column_name(name.property.key)
+                    else:
+                        visible_name = self.get_column_name(name.key)
                 else:
                     if self.column_labels and name in self.column_labels:
                         visible_name = self.column_labels[name]
