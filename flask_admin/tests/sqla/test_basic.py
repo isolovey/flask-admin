@@ -1981,6 +1981,10 @@ def test_hybrid_property(app, sqla_db_ext, admin, session_or_db):
                 return self.width * self.height
 
             @hybrid_property
+            def something(self):
+                return self.width.is_not(None)
+
+            @hybrid_property
             def number_of_pixels_str(self):
                 return str(self.number_of_pixels())
 
@@ -2007,7 +2011,8 @@ def test_hybrid_property(app, sqla_db_ext, admin, session_or_db):
             param,
             column_default_sort="number_of_pixels",
             column_filters=[
-                filters.IntGreaterFilter(Model1.number_of_pixels, "Number of Pixels")  # type: ignore[arg-type]
+                filters.IntGreaterFilter(Model1.number_of_pixels, "Number of Pixels"),  # type: ignore[arg-type]
+                Model1.something,
             ],
             column_searchable_list=[
                 "number_of_pixels_str",

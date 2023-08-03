@@ -271,7 +271,13 @@ def is_hybrid_property(model: type[T_SQLALCHEMY_MODEL], attr_name: str) -> bool:
         last_name = names[-1]
         return last_name in get_hybrid_properties(last_model)
     else:
-        return attr_name.name in get_hybrid_properties(model)
+        if hasattr(attr_name, "name"):
+            name = attr_name.name
+        elif hasattr(attr_name, "key"):
+            name = attr_name.key
+        else:
+            return False
+        return name in get_hybrid_properties(model)
 
 
 def is_relationship(attr: T_INSTRUMENTED_ATTRIBUTE) -> bool:
