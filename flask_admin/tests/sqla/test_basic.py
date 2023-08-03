@@ -1596,6 +1596,10 @@ def test_hybrid_property():
                 return self.width * self.height
 
             @hybrid_property
+            def something(self):
+                return self.width.is_not(None)
+
+            @hybrid_property
             def number_of_pixels_str(self):
                 return str(self.number_of_pixels())
 
@@ -1620,7 +1624,8 @@ def test_hybrid_property():
             Model1, db.session,
             column_default_sort='number_of_pixels',
             column_filters=[filters.IntGreaterFilter(Model1.number_of_pixels,
-                                                     'Number of Pixels')],
+                                                     'Number of Pixels'),
+                            Model1.something],
             column_searchable_list=['number_of_pixels_str', ]
         )
         admin.add_view(view)
