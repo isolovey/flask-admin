@@ -999,6 +999,9 @@ class ModelView(BaseModelView):
             # Clean value .clean() and apply the filter
             clean_value = flt.clean(value)
 
+            # Cast to correct python type
+            clean_value = flt.column.type.python_type(clean_value)
+
             try:
                 query = flt.apply(query, clean_value, alias)
             except TypeError:
