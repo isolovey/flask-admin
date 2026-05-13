@@ -73,7 +73,7 @@ class BaseFilter:
         try:
             self.clean(value)
             return True
-        except ValueError:
+        except (ValueError, KeyError):
             return False
 
     def clean(self, value: t.Any) -> t.Any:
